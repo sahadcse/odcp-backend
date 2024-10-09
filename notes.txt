@@ -1,0 +1,22 @@
+Patient Info= {
+    "name": "Rasel Miah",
+    "email": "rasselmia395@gmail.com",
+    "password": "123456",
+    "role": "patient",
+    "contactInfo": {"phone": "01601286493", "address": "Tangail"},
+    "profilePicture": "",
+    "medicalHistory": [
+        { "condition": "Good", "notes": "Diagnosed 9 month ago" }
+    ]
+}
+
+Doctor Info= {
+    "name": "Sobuj Ahmed",
+    "email": "sohelrana127600@gmail.com",
+    "password": "123456",
+    "role": "doctor",
+    "contactInfo": {"phone": "01601286493", "address": "Sirajgonj"},
+    "profilePicture": "",
+    "specailization": "Vascular Surgon",
+    "availability": "Monday-Friday, 12AM-9PM"
+}

@@ -1,6 +1,7 @@
 const Appointment = require('../models/appointmentModel');
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/userModel');
+const io = require('../server');
 
 // @desc    Request an appointment
 // @route   POST /api/appointments
@@ -28,8 +29,16 @@ const requestAppointment = async (req, res) => {
         time,
         consultationNotes
     });
-
     const createdAppointment = await appointment.save();
+
+    // Notify doctor of new appointment request
+    io.emit('appointmentNotification',{
+        message: `New appointment request from ${req.user.name}`,
+        doctorId: doctorId
+    }
+    );
+
+
     // Send email to doctor to confirm appointment
     const doctorEmail = {
         email: doctor.email,
@@ -37,6 +46,7 @@ const requestAppointment = async (req, res) => {
         message: `You have a new appointment request from ${req.user.name} on ${date} at ${time}. ConsultationNotes- ${consultationNotes}. Please login to your account to confirm or reject the request.`
     }
     await sendEmail(doctorEmail);
+
     // Send email to patient to confirm appointment
     const patientEmail = {
         email: req.user.email,
@@ -85,6 +95,12 @@ const updateAppointmentStatus = async (req, res) => {
     if(appointment && appointment.doctorId.toString() === req.user._id.toString()) {
         appointment.status = status;
         const updatedAppointment = await appointment.save();
+
+        // Notify patient of appointment status
+        io.emit('appointmentNotification',{
+            message: `Appointment with Dr. ${appointment.doctor.name} has been ${status}`,
+            patientId: appointment.patientId
+        });
 
         // Send email to patient about appointment status
         const patientEmail = {

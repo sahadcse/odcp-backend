@@ -3,8 +3,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
 const socketIo = require("socket.io");
-const http = require("http");
-const fs = require("fs");
+const http = require("http"); 
 
 // Initialize express
 const app = express();
@@ -108,7 +107,7 @@ app.get("/", (req, res) => res.send("API Running"));
 
 
 // Start Server
-const PORT = process.env.PORT || 5555;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // Export server for testing

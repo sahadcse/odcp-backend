@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"No tests available\"",
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "sahaduzzaman.cse@gmail.com",
   "license": "ISC",

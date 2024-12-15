@@ -25,9 +25,40 @@ const appointmentSchema = new mongoose.Schema({
         default: 'pending'
     },
     consultationNotes: {type: String},
-    prescriptions: {
-        type: String // can be a URL or base64-encoded string for files
-    }
+    prescriptions: [
+        {
+            medicationName: {
+                type: String,
+                required: true
+            },
+            dosage: {
+                amount: {
+                    type: String, // e.g., '500 mg'
+                    required: true
+                },
+                frequency: {
+                    type: String, // e.g., '3 times a day'
+                    required: true
+                },
+                duration: {
+                    type: String, // e.g., '7 days'
+                    required: true
+                }
+            },
+            instructions: {
+                type: String, // e.g., 'Take with food.'
+                default: ''
+            },
+            refill: {
+                type: Boolean,
+                default: false
+            },
+            prescribedAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
 }, {
     timestamps: true
 });

@@ -11,6 +11,7 @@ const app = express();
 // Init Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Socket.IO Server Setup
 const server = http.createServer(app);
@@ -23,52 +24,52 @@ const io =socketIo(server, {
 });
 
 //  events for signaling and peer-to-peer communication | Socket.IO
-io.on('connection', (socket) => {
-  console.log('A user connected for consultation');
+// io.on('connection', (socket) => {
+//   console.log('A user connected for consultation');
 
-  socket.on('offer', (offer) => {
-    socket.broadcast.emit('offer', offer); // Send the offer to the other user
-  });
+//   socket.on('offer', (offer) => {
+//     socket.broadcast.emit('offer', offer); // Send the offer to the other user
+//   });
 
-  socket.on('answer', (answer) => {
-    socket.broadcast.emit('answer', answer); // Send the answer back to the other user
-  });
+//   socket.on('answer', (answer) => {
+//     socket.broadcast.emit('answer', answer); // Send the answer back to the other user
+//   });
 
-  socket.on('ice-candidate', (candidate) => {
-    socket.broadcast.emit('ice-candidate', candidate); // Exchange ICE candidates
-  });
+//   socket.on('ice-candidate', (candidate) => {
+//     socket.broadcast.emit('ice-candidate', candidate); // Exchange ICE candidates
+//   });
 
-  socket.on('disconnect', () => {
-    console.log('A user disconnected');
-  });
-});
+//   socket.on('disconnect', () => {
+//     console.log('A user disconnected');
+//   });
+// });
 
 // On server.js (or wherever your Socket.IO server is set up)
-io.on('connection', (socket) => {
-  console.log("A user connected for consultation");
+// io.on('connection', (socket) => {
+//   console.log("A user connected for consultation");
 
-  // End Call
-  socket.on('end-call', () => {
-    socket.broadcast.emit('end-call');
-    console.log("Call ended");
-  });
+//   // End Call
+//   socket.on('end-call', () => {
+//     socket.broadcast.emit('end-call');
+//     console.log("Call ended");
+//   });
 
-  // Mute/Unmute
-  socket.on('toggle-mute', (isMuted) => {
-    socket.broadcast.emit('toggle-mute', isMuted);
-    console.log(`Mute status: ${isMuted}`);
-  });
+//   // Mute/Unmute
+//   socket.on('toggle-mute', (isMuted) => {
+//     socket.broadcast.emit('toggle-mute', isMuted);
+//     console.log(`Mute status: ${isMuted}`);
+//   });
 
-  // Toggle Camera
-  socket.on('toggle-camera', (isCameraOn) => {
-    socket.broadcast.emit('toggle-camera', isCameraOn);
-    console.log(`Camera status: ${isCameraOn}`);
-  });
+//   // Toggle Camera
+//   socket.on('toggle-camera', (isCameraOn) => {
+//     socket.broadcast.emit('toggle-camera', isCameraOn);
+//     console.log(`Camera status: ${isCameraOn}`);
+//   });
 
-  socket.on('disconnect', () => {
-    console.log("A user disconnected");
-  });
-});
+//   socket.on('disconnect', () => {
+//     console.log("A user disconnected");
+//   });
+// });
 
 
 

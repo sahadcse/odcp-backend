@@ -18,37 +18,55 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['patient', 'doctor', 'admin'],
-        require: true
+        required: true
     },
     contactInfo: {
         phone: {
-            type: String
+            type: String,
         },
         address: {
-            type: String
+            type: String,
         }
     },
     profilePicture: {
-        type: String
-    },
-    specailization: {
         type: String,
-        require: function () {
+    },
+    specialization: { 
+        type: String,
+        required: function () {
             return this.role === 'doctor';
         }
     },
     availableSlots: [{
         type: String,
-        require: function () {
+        required: function () {
             return this.role === 'doctor';
         }
     }],
     availability: {
         type: String,
-        require: function () {
+        required: function () {
             return this.role === 'doctor';
         }
     },
+    doctorId: {
+        type: String,
+        required: function () {
+            return this.role === 'doctor';
+        }
+    },
+    authorizedOrganization: {
+        type: String,
+        required: function () {
+            return this.role === 'doctor';
+        }
+    },
+    validPapers: [{
+        type: String,
+        required: function () {
+            return this.role === 'doctor';
+        }
+    }],
     medicalHistory: [{
         condition: {
             type: String
@@ -57,6 +75,15 @@ const userSchema = new mongoose.Schema({
             type: String
         },
     }],
+    age: {
+        type: Number,
+        required: true
+    },
+    sex: {
+        type: String,
+        enum: ['Male', 'Female', 'Other'],
+        required: true
+    },
 }, {
     timestamps: true
 });
@@ -76,6 +103,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 }
 
-const User = mongoose.model('User', userSchema);
+const UserOld = mongoose.model('UserOld', userSchema);
 
-module.exports = User;
+module.exports = UserOld;

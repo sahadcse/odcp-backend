@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const {getConsultationDetails, uploadPrescription, completeConsultation,  getPatientConsultationHistory, getDoctorConsultationHistory, downloadPrescription} = require('../controllers/consultationController');
-const protect = require('../middleware/authMiddleware');
+const {getConsultationDetails, uploadPrescription, completeConsultation,  getPatientConsultationHistory, getDoctorConsultationHistory, downloadPrescription} = require('../../controllers/unused/consultationController');
+const protect = require('../../middleware/authMiddleware');
+
+// router.post('/', protect, createConsultation);
+// router.put('/:id', protect, updateConsultation);
 
 // Get consultation details by appointment ID
 router.get('/:id', protect, getConsultationDetails);
@@ -8,7 +11,7 @@ router.get('/:id', protect, getConsultationDetails);
 // Uload a prescription for a completed consultation
 router.put('/:id/prescription', protect, uploadPrescription);
 
-// Mark appointment as completed
+// Mark consultation as completed
 router.put('/:id/complete', protect, completeConsultation);
 
 // Get consultation history for patient

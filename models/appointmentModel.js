@@ -1,67 +1,76 @@
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
-    patientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+    patient_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Patient', 
+        required: true 
     },
-    doctorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+    doctor_id: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Doctor', 
+        required: true 
     },
-    date: {
-        type: Date,
-        required: true
+    consultation_type: { 
+        type: String, 
+        enum: ['Chat', 'Audio', 'Video'], 
+        required: true 
     },
-    time: {
-        type: String,
-        required: true
+    appointment_date: { 
+        type: Date, 
+        required: true 
     },
-    status: {
-        type: String,
-        enum: ['pending', 'confirmed', 'completed', 'canceled'],
-        default: 'pending'
+    start_time: { 
+        type: String, // e.g., '14:30'
+        required: true 
     },
-    consultationNotes: {type: String},
-    prescriptions: [
-        {
-            medicationName: {
-                type: String,
-                required: true
-            },
-            dosage: {
-                amount: {
-                    type: String, // e.g., '500 mg'
-                    required: true
-                },
-                frequency: {
-                    type: String, // e.g., '3 times a day'
-                    required: true
-                },
-                duration: {
-                    type: String, // e.g., '7 days'
-                    required: true
-                }
-            },
-            instructions: {
-                type: String, // e.g., 'Take with food.'
-                default: ''
-            },
-            refill: {
-                type: Boolean,
-                default: false
-            },
-            prescribedAt: {
-                type: Date,
-                default: Date.now
-            }
-        }
-    ],
-}, {
-    timestamps: true
+    end_time: { 
+        type: String // e.g., '15:00'
+    },
+    status: { 
+        type: String, 
+        enum: ['Pending', 'Confirmed', 'Cancelled', 'Completed'], 
+        default: 'Pending', 
+        // required: true 
+    },
+    reason_for_visit: { 
+        type: String, 
+        required: true 
+    },
+    booking_fee: { 
+        type: Number, 
+        required: true 
+    },
+    payment_status: { 
+        type: String, 
+        enum: ['Pending', 'Paid', 'Refunded'], 
+        default: 'Pending', 
+        required: true 
+    },
+    notes: { 
+        type: String // Additional notes added by the patient.
+    },
+    files: [{ 
+        type: new mongoose.Schema({
+            type: { type: String, required: true }, // e.g., 'image/png', 'application/pdf'
+            url: { type: String, required: true }   // URL to uploaded file
+        })
+    }],
+    created_at: { 
+        type: Date, 
+        default: Date.now 
+    },
+    updated_at: { 
+        type: Date 
+    },
+    feedback: { 
+        type: new mongoose.Schema({
+            rating: { type: Number }, // 1-5
+            comment: { type: String }
+        })
+    },
 });
+
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
 

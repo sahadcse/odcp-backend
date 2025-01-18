@@ -1,4 +1,4 @@
-const Appointment = require('../models/appointmentModel');
+const Appointment = require('../../models/appointmentModel');
 
 // @desc    Get consultation details by appointment ID
 // @route   GET /api/consultations/:id

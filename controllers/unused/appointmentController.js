@@ -1,7 +1,7 @@
-const Appointment = require('../models/appointmentModel');
-const sendEmail = require('../utils/sendEmail');
-const User = require('../models/userModel');
-const io = require('../server');
+const Appointment = require('../../models/appointmentModel');
+const sendEmail = require('../../utils/sendEmail');
+const User = require('../../models/_/userModel');
+const io = require('../../server');
 
 // @desc    Request an appointment
 // @route   POST /api/appointments

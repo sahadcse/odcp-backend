@@ -1,6 +1,6 @@
 const express = require('express');
-const {requestAppointment, getDoctorAppointments, getPatientAppointments, updateAppointmentStatus, downloadPrescription} = require('../controllers/appointmentController');
-const protect = require('../middleware/authMiddleware');
+const {requestAppointment, getDoctorAppointments, getPatientAppointments, updateAppointmentStatus} = require('../../controllers/unused/appointmentController');
+const protect = require('../../middleware/authMiddleware');
 
 const router = express.Router();
 

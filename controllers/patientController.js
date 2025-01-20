@@ -5,8 +5,12 @@ const deleteRequestPatientProfile = require("../services/patient/deleteRequestPa
 const loginPatientService = require("../services/patient/loginPatient");
 const hashPassword = require("../utils/hashPassword");
 
-
 // Create a new patient
+/**
+ * @desc Register a new patient
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ */
 const registerPatient = async (req, res) => {
   const patientField = [ "full_name", "email", "password", "phone_number", "date_of_birth", "gender", "blood_group", "height", "weight", "emergency_contact", "terms_accepted", "consent_form_signed"];
 
@@ -25,6 +29,11 @@ const registerPatient = async (req, res) => {
 };
 
 // Get patient by ID
+/**
+ * @desc Get patient profile by ID
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ */
 const getPatientProfile = async (req, res) => {
   try {
     const patient = await getPatientById(req.patient._id);
@@ -38,6 +47,11 @@ const getPatientProfile = async (req, res) => {
 };
 
 // Update patient profile
+/**
+ * @desc Update patient profile
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ */
 const updatePatientProfile = async (req, res) => {
   // get patient from request
   const patient = req.patient;
@@ -67,6 +81,11 @@ const updatePatientProfile = async (req, res) => {
 };
 
 // Delete patient profile
+/**
+ * @desc Delete patient profile
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ */
 const deletePatientHandler = async (req, res) => {
     const patient = req.patient;
 
@@ -90,6 +109,11 @@ const deletePatientHandler = async (req, res) => {
 };
 
 // Patient login
+/**
+ * @desc Login a patient
+ * @param {Object} req - Request object
+ * @param {Object} res - Response object
+ */
 const loginPatient = async (req, res) => {
   const { email, password } = req.body;
 

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const Patient = require('../models/patientModel');
 
+// Middleware to authenticate patient
 const patientAuth = async (req, res, next) => {
     try {
         // Check for Authorization header

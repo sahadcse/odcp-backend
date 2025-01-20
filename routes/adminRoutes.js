@@ -11,6 +11,7 @@ const { viewConsultations, viewConsultationDetails } = require('../controllers/a
 const { sendNotifications } = require('../controllers/admin/notificationController@ADM');
 const { generateReports, viewAnalytics } = require('../controllers/admin/reportController@ADM');
 const { createSettings, deleteSettings, updateSettings, viewSettings } = require('../controllers/admin/settingsController@ADM');
+const { getAccountDeletionRequests } = require('../controllers/admin/commonController@ADM');
 
 
 
@@ -37,6 +38,12 @@ router.patch('/admin/update/:id', protectAdmin,
 router.delete('/admin/delete/:id', protectAdmin,adminRole('superadmin'), deleteAdmin);  // checked
 
 // Authentication-----------------------------------------------------
+
+// Account Deletion---------------------------------------------------
+
+router.get('/admin/getaccount/deletion', protectAdmin, getAccountDeletionRequests);
+
+// Account Deletion---------------------------------------------------
 
 // Manage Patients----------------------------------------------------
 

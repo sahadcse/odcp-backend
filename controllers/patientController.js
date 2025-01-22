@@ -61,7 +61,7 @@ const updatePatientProfile = async (req, res) => {
 
   const updateData = { ...req.body };
 
-  if (req.files.profile_picture) {
+  if (req.files && req.files.profile_picture) {
     updateData.profile_picture = req.files.profile_picture[0].path;
   }
 

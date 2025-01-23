@@ -8,8 +8,11 @@ const Patient = require('../models/patientModel');
 const viewAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.find({ doctor_id: req.doctor._id });
-        !appointments.length && res.status(404).json({ message: `No appointments found for ${req.doctor.full_name}, check back later.` });
-        res.status(200).json(appointments);
+        if (!appointments.length) {
+            return res.status(404).json({ message: `No appointments found for ${req.doctor.full_name}, check back later.` });
+        }
+        const patientDetails = await Patient.findById(appointments[0].patient_id);
+        res.status(200).json({ appointments, patientDetails });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

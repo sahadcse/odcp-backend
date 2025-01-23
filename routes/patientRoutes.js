@@ -1,9 +1,29 @@
 const express = require("express");
 const protectPatient = require("../middleware/patientAuth");
 const { upload } = require("../config/cloudinaryConfig");
-const { registerPatient, getPatientProfile, updatePatientProfile, deletePatientHandler, loginPatient } = require("../controllers/patientController");
-const { bookAppointment, getDoctors, viewAppointments, getAppointmentDetails, cancelAppointment, rescheduleAppointment, getDoctorDetails } = require("../controllers/appointmentPatientController");
-const { viewConsultationHistory, getConsultationDetails, uploadMedicalReports, downloadPrescription, getNotifications } = require("../controllers/consultationPatientController");
+const {
+  registerPatient,
+  getPatientProfile,
+  updatePatientProfile,
+  deletePatientHandler,
+  loginPatient,
+} = require("../controllers/patientController");
+const {
+  bookAppointment,
+  getDoctors,
+  viewAppointments,
+  getAppointmentDetails,
+  cancelAppointment,
+  rescheduleAppointment,
+  getDoctorDetails,
+} = require("../controllers/appointmentPatientController");
+const {
+  viewConsultationHistory,
+  getConsultationDetails,
+  uploadMedicalReports,
+  downloadPrescription,
+  getNotifications,
+} = require("../controllers/consultationPatientController");
 
 const router = express.Router();
 
@@ -16,7 +36,7 @@ const router = express.Router();
  * @access Public
  * @body { full_name, email, password, phone_number, date_of_birth, gender, blood_group, height, weight, emergency_contact, terms_accepted, consent_form_signed }
  */
-router.post("/register", registerPatient);  // tested
+router.post("/register", registerPatient); // tested
 
 // Patient login
 /**
@@ -25,7 +45,7 @@ router.post("/register", registerPatient);  // tested
  * @access Public
  * @body { email, password }
  */
-router.post("/login", loginPatient);  // tested
+router.post("/login", loginPatient); // tested
 
 // POST /api/patient/logout – Logout for patients.
 // POST /api/patient/request-password-reset – Request password reset.
@@ -100,7 +120,7 @@ router.get("/doctors", protectPatient, getDoctors); // tested
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.get("/appointments", protectPatient, viewAppointments);  // tested
+router.get("/appointments", protectPatient, viewAppointments); // tested
 
 // Get details of a specific appointment
 /**
@@ -109,7 +129,11 @@ router.get("/appointments", protectPatient, viewAppointments);  // tested
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.get("/appointments/:appointmentId", protectPatient, getAppointmentDetails); // tested
+router.get(
+  "/appointments/:appointmentId",
+  protectPatient,
+  getAppointmentDetails
+); // tested
 
 // Cancel an appointment
 /**
@@ -118,7 +142,11 @@ router.get("/appointments/:appointmentId", protectPatient, getAppointmentDetails
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.put("/appointments/:appointmentId/cancel", protectPatient, cancelAppointment); // tested
+router.put(
+  "/appointments/:appointmentId/cancel",
+  protectPatient,
+  cancelAppointment
+); // tested
 
 // Reschedule an appointment
 /**
@@ -127,7 +155,11 @@ router.put("/appointments/:appointmentId/cancel", protectPatient, cancelAppointm
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.patch("/appointments/:id/reschedule", protectPatient, rescheduleAppointment ); // tested
+router.patch(
+  "/appointments/:id/reschedule",
+  protectPatient,
+  rescheduleAppointment
+); // tested
 
 // get Doctor details for a specific appointment
 /**
@@ -135,7 +167,6 @@ router.patch("/appointments/:id/reschedule", protectPatient, rescheduleAppointme
  * @desc get Doctor details for a specific appointment
  * @access Private
  * @header Authorization: Bearer <token>
- * @body { appointment details }
  */
 router.get("/appointments/:id/doctor", protectPatient, getDoctorDetails); // tested
 
@@ -169,7 +200,12 @@ router.get("/consultations/:id", protectPatient, getConsultationDetails); // tes
  * @header Authorization: Bearer <token>
  * @body { medical_reports }
  */
-router.post("/consultations/:id/files", protectPatient, upload.fields([{ name: "medical_reports", maxCount: 5 }]),uploadMedicalReports);  // tested
+router.post(
+  "/consultations/:id/files",
+  protectPatient,
+  upload.fields([{ name: "medical_reports", maxCount: 5 }]),
+  uploadMedicalReports
+); // tested
 
 // Download prescription
 /**
@@ -178,7 +214,11 @@ router.post("/consultations/:id/files", protectPatient, upload.fields([{ name: "
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.get("/consultations/:id/prescription", protectPatient, downloadPrescription);  // tested
+router.get(
+  "/consultations/:id/prescription",
+  protectPatient,
+  downloadPrescription
+); // tested
 
 // Consultations---------------------------------------------------------------
 

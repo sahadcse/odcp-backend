@@ -125,6 +125,27 @@ const rescheduleAppointment = async (req, res) => {
   }
 };
 
+// get Doctor details for a specific appointment
+const getDoctorDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "Appointment ID is required" });
+    }
+    const appointment = await Appointment.findById(id);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    const doctor = await Doctor.findById(appointment.doctor_id);
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.status(200).json(doctor);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   bookAppointment,
   getDoctors,
@@ -132,4 +153,5 @@ module.exports = {
   getAppointmentDetails,
   cancelAppointment,
   rescheduleAppointment,
+  getDoctorDetails,
 };

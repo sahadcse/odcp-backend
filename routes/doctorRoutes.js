@@ -4,7 +4,7 @@ const { upload } = require('../config/cloudinaryConfig');
 // Importing the doctor controller functions
 const { registerDoctor, getDoctorProfile, updateDoctorProfile, deleteDoctorProfileRequest, loginDoctor } = require('../controllers/doctorController');
 // Importing the appointment controller functions
-const { viewAppointments, getAppointmentDetails, confirmAppointment, cancelAppointment, getNotifications, setAvailability, getAvailabilityDetails, modifyAvailability, deleteAvailability } = require('../controllers/appointmentDoctorController');
+const { viewAppointments, getAppointmentDetails, confirmAppointment, cancelAppointment, getNotifications, setAvailability, getAvailabilityDetails, modifyAvailability, deleteAvailability, getPatientDetails } = require('../controllers/appointmentDoctorController');
 // Importing the consultation controller functions
 const {viewConsultationHistory, getConsultationDetails, startConsultation, completeConsultation, uploadPrescription, cancelConsultation} = require('../controllers/consultationDoctorController');
 
@@ -48,6 +48,9 @@ router.get('/appointments/:id', protectDoctor, getAppointmentDetails);  // Teste
 router.put('/appointments/:id/confirm', protectDoctor, confirmAppointment); // Tested
 // Cancel an appointment
 router.put('/appointments/:id/cancel', protectDoctor, cancelAppointment); // Tested
+
+// get patient details for a specific appointment
+router.get('/appointments/:id/patient', protectDoctor, getPatientDetails); // Tested
 
 // Appointments-----------------------------------------------------------
 

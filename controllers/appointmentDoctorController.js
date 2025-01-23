@@ -2,6 +2,7 @@ const Appointment = require('../models/appointmentModel');
 const Notification = require('../models/notificationModel');
 const Doctor = require('../models/doctorModel');
 const ConsultationRecord = require('../models/consultationRecordModel');
+const Patient = require('../models/patientModel');
 
 // View all appointments for the doctor
 const viewAppointments = async (req, res) => {
@@ -188,6 +189,23 @@ const deleteAvailability = async (req, res) => {
     }
 };
 
+// get patient details for a specific appointment
+const getPatientDetails = async (req, res) => {
+    try {
+        const appointment = await Appointment.findById(req.params.id).populate('patient_id');
+        if (!appointment) {
+            return res.status(404).json({ message: `Appointment not found for ${req.doctor.full_name} with ID: ${req.params.id}` });
+        }
+        const patient = await Patient.findById(appointment.patient_id);
+        if (!patient) {
+            return res.status(404).json({ message: 'Patient not found' });
+        }
+        res.status(200).json(patient);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     viewAppointments,
     getAppointmentDetails,
@@ -197,5 +215,6 @@ module.exports = {
     setAvailability,
     getAvailabilityDetails,
     modifyAvailability,
-    deleteAvailability
+    deleteAvailability,
+    getPatientDetails
 };

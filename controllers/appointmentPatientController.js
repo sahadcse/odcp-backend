@@ -103,15 +103,15 @@ const cancelAppointment = async (req, res) => {
 const rescheduleAppointment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { appointment_date, start_time, end_time } = req.body;
-    if (!id || !appointment_date || !start_time) {
+    const { appointment_date, time_slot } = req.body;
+    if (!id || !appointment_date || !time_slot) {
       return res
         .status(400)
-        .json({ message: "Appointment ID, date, and start time are required" });
+        .json({ message: "Appointment ID, date, and time_slot are required" });
     }
     const appointment = await Appointment.findByIdAndUpdate(
       id,
-      { appointment_date, start_time, end_time, status: "Pending" },
+      { appointment_date, time_slot, status: "Pending" },
       { new: true }
     );
     if (!appointment) {

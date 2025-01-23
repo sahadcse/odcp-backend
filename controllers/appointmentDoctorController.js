@@ -49,7 +49,7 @@ const confirmAppointment = async (req, res) => {
             patient_id: appointment.patient_id,
             doctor_id: appointment.doctor_id,
             consultation_date: appointment.appointment_date,
-            start_time: appointment.start_time,
+            start_time: appointment.time_slot,
             issues: appointment.reason_for_visit,
             consultation_fee: appointment.booking_fee,
         });

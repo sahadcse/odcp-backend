@@ -1,4 +1,5 @@
 const Appointment = require('../models/appointmentModel');
+const Doctor = require('../models/doctorModel');
 
 // Book a new appointment
 const bookAppointment = async (req, res) => {
@@ -15,6 +16,16 @@ const bookAppointment = async (req, res) => {
         const appointment = new Appointment(req.body);
         await appointment.save();
         res.status(201).json(appointment);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get all doctors for booking an appointment
+const getDoctors = async (req, res) => {
+    try {
+        const doctors = await Doctor.find();
+        res.status(200).json(doctors);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -97,6 +108,7 @@ const rescheduleAppointment = async (req, res) => {
 
 module.exports = {
     bookAppointment,
+    getDoctors,
     viewAppointments,
     getAppointmentDetails,
     cancelAppointment,

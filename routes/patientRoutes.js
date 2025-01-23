@@ -2,7 +2,7 @@ const express = require("express");
 const protectPatient = require("../middleware/patientAuth");
 const { upload } = require("../config/cloudinaryConfig");
 const { registerPatient, getPatientProfile, updatePatientProfile, deletePatientHandler, loginPatient } = require("../controllers/patientController");
-const { bookAppointment, viewAppointments, getAppointmentDetails, cancelAppointment, rescheduleAppointment } = require("../controllers/appointmentPatientController");
+const { bookAppointment, getDoctors, viewAppointments, getAppointmentDetails, cancelAppointment, rescheduleAppointment } = require("../controllers/appointmentPatientController");
 const { viewConsultationHistory, getConsultationDetails, uploadMedicalReports, downloadPrescription, getNotifications } = require("../controllers/consultationPatientController");
 
 const router = express.Router();
@@ -82,6 +82,16 @@ router.delete("/delete", protectPatient, deletePatientHandler); // tested
  * @body { appointment details }
  */
 router.post("/appointments", protectPatient, bookAppointment); // tested
+
+// Get all doctors for booking an appointment
+/**
+ * @route GET /api/users/patient/doctors
+ * @desc Get all doctors for booking an appointment
+ * @access Private
+ * @header Authorization: Bearer <token>
+ * @body { appointment details }
+ */
+router.get("/doctors", protectPatient, getDoctors); // tested
 
 // View all appointments for the patient
 /**

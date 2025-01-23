@@ -7,12 +7,14 @@ const Patient = require('../models/patientModel');
 // View all appointments for the doctor
 const viewAppointments = async (req, res) => {
     try {
-        const appointments = await Appointment.find({ doctor_id: req.doctor._id });
-        if (!appointments.length) {
-            return res.status(404).json({ message: `No appointments found for ${req.doctor.full_name}, check back later.` });
-        }
-        const patientDetails = await Patient.findById(appointments[0].patient_id);
-        res.status(200).json({ appointments, patientDetails });
+        const appointments = await Appointment.find({ doctor_id: req.doctor._id }).populate('patient_id');
+        const patientDetails = appointments.map(appointment => {
+            return {
+            appointment,
+            // patient: appointment.patient_id
+            };
+        });
+        res.status(200).json(patientDetails);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

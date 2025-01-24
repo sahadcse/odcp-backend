@@ -101,11 +101,28 @@ const getNotifications = async (req, res) => {
     }
 };
 
+// Get Room for joining the consultation
+const getRoom = async (req, res) => {
+    const { patient_id } = req.patient;
+    !patient_id && res.status(401).json({ message: 'Patient not found' });
+
+    try {
+        const consultation = await ConsultationRecord.findOne({ patient_id, status: 'Waiting' });
+        if (!consultation) {
+            return handleNotFound(res, 'No consultation found');
+        }
+        res.status(200).json({ room_name: consultation.room_name });
+    } catch (error) {
+        handleError(res, error);
+    }
+};
+
 // Export functions
 module.exports = {
     viewConsultationHistory,
     getConsultationDetails,
     uploadMedicalReports,
     downloadPrescription,
-    getNotifications
+    getNotifications,
+    getRoom
 };

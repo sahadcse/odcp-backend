@@ -20,6 +20,14 @@ const consultationRecordSchema = new mongoose.Schema({
         type: Date, 
         required: true 
     },
+    room_name: {
+        type: String, 
+        // required: true 
+    },
+    scheduledAt: {
+        type: Date, 
+        // required: true 
+    },
     start_time: { 
         type: String, 
         required: true 

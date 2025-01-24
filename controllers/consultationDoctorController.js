@@ -119,6 +119,33 @@ const totalPatients = async (req, res) => {
   }
 };
 
+const createRoom = async (req, res) => {
+  const { doctor_id, patient_id, scheduledAt, start_time } = req.body;
+
+  if (!doctor_id || !patient_id || !scheduledAt || !start_time) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
+  }
+
+  const room_name = `consultation_${doctor_id}_${patient_id}_${scheduledAt}`;
+
+  try {
+    const consultation = await ConsultationRecord.create({
+      doctor_id,
+      patient_id,
+      scheduledAt,
+      start_time,
+      room_name,
+      status: "Waiting",
+    });
+    await consultation.save();
+    res.status(201).json({ message: "Room created", consultation });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating room", error });
+  }
+};
+
 module.exports = {
   viewConsultationHistory,
   getConsultationDetails,
@@ -127,4 +154,5 @@ module.exports = {
   uploadPrescription,
   cancelConsultation,
   totalPatients,
+  createRoom,
 };

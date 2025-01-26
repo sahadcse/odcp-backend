@@ -103,18 +103,16 @@ const getNotifications = async (req, res) => {
 
 // Get Room for joining the consultation
 const getRoom = async (req, res) => {
-    const { patient_id } = req.patient;
-    !patient_id && res.status(401).json({ message: 'Patient not found' });
-
+    const { id } = req.params;
     try {
-        const consultation = await ConsultationRecord.findOne({ patient_id, status: 'Waiting' });
+        const consultation = await ConsultationRecord.findById(id);
         if (!consultation) {
-            return handleNotFound(res, 'No consultation found');
+            return handleNotFound(res, 'Consultation not found');
         }
         res.status(200).json({ room_name: consultation.room_name });
     } catch (error) {
         handleError(res, error);
-    }
+    }   
 };
 
 // Export functions

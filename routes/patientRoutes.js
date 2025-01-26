@@ -222,7 +222,7 @@ router.get(
 ); // tested
 
 // Get Room for joining the consultation
-router.get('/consultations/join', protectPatient, getRoom); // tested
+router.get('/consultations/join/:id', protectPatient, getRoom); // tested
 
 // Consultations---------------------------------------------------------------
 

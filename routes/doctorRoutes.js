@@ -6,7 +6,7 @@ const { registerDoctor, getDoctorProfile, updateDoctorProfile, deleteDoctorProfi
 // Importing the appointment controller functions
 const { viewAppointments, getAppointmentDetails, confirmAppointment, cancelAppointment, getNotifications, setAvailability, getAvailabilityDetails, modifyAvailability, deleteAvailability, getPatientDetails } = require('../controllers/appointmentDoctorController');
 // Importing the consultation controller functions
-const {viewConsultationHistory, getConsultationDetails, startConsultation, completeConsultation, uploadPrescription, cancelConsultation, totalPatients, createRoom} = require('../controllers/consultationDoctorController');
+const {viewConsultationHistory, getConsultationDetails, startConsultation, completeConsultation, uploadPrescription, cancelConsultation, totalPatients, getRoomName} = require('../controllers/consultationDoctorController');
 
 const router = express.Router();
 
@@ -73,8 +73,8 @@ router.put('/consultations/:id/cancel', protectDoctor, cancelConsultation);  // 
 // Get the number of patients a doctor has based on consultations
 router.get('/consultations/patients/count', protectDoctor, totalPatients); // Tested
 
-// Create Room for consultation
-router.post('/consultations/room/create', protectDoctor, createRoom); // Tested
+// Get Room Info for consultation
+router.get('/consultations/room/collect/:id', protectDoctor, getRoomName); // Tested
 
 // Consultations----------------------------------------------------------
 

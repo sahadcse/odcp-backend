@@ -109,7 +109,7 @@ const getRoom = async (req, res) => {
         if (!consultation) {
             return handleNotFound(res, 'Consultation not found');
         }
-        res.status(200).json({ room_name: consultation.room_name });
+        res.status(200).json({ room_name: consultation.room_name, isActive: consultation.isActive });
     } catch (error) {
         handleError(res, error);
     }   

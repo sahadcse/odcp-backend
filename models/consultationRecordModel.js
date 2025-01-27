@@ -50,20 +50,26 @@ const consultationRecordSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  prescription: {
-    type: new mongoose.Schema({
-      medications: [
-        {
-          name: { type: String, required: true },
-          dosage: { type: String, required: true }, // e.g., '500mg'
-          frequency: { type: String, required: true }, // e.g., 'Twice a day'
-          duration: { type: String, required: true }, // e.g., '7 days'
-        },
-      ],
-      advice: { type: String }, // Additional doctor advice
-      created_at: { type: Date, default: Date.now },
-    }),
-    required: false,
+  // prescription: {
+  //   type: new mongoose.Schema({
+  //     medications: [
+  //       {
+  //         name: { type: String, required: true },
+  //         dosage: { type: String, required: true }, // e.g., '500mg'
+  //         frequency: { type: String, required: true }, // e.g., 'Twice a day'
+  //         duration: { type: String, required: true }, // e.g., '7 days'
+  //       },
+  //     ],
+  //     advice: { type: String }, // Additional doctor advice
+  //     created_at: { type: Date, default: Date.now },
+  //   }),
+  //   required: false,
+  // },
+
+  prescription:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Prescription",
+    required: true,
   },
   notes: {
     type: String, // Doctor's notes about the consultation.

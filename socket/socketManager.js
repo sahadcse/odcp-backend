@@ -252,7 +252,7 @@ const setupSocket = (server) => {
           isActive: room.isActive
         });
       }
-    }, 10000);
+    }, 10000000);
 
     // Clean up invalid rooms periodically
     setInterval(() => {

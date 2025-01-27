@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const prescriptionSchema = new mongoose.Schema(
   {
+    consultation_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ConsultationRecord",
+      required: true,
+    }, // Reference to Consultation model
     patient: {
       name: { type: String, required: true },
       age: { type: Number, required: true },
@@ -10,7 +15,7 @@ const prescriptionSchema = new mongoose.Schema(
         enum: ["Male", "Female", "Other"],
         required: true,
       },
-      weight: { type: Number, required: true },
+      weight: { type: String, required: true },
     },
     symptoms: [{ type: String, required: true }], // Array of symptoms
     vitals: {
@@ -36,9 +41,9 @@ const prescriptionSchema = new mongoose.Schema(
       name: { type: String, required: true },
       registrationNo: { type: String, required: true },
     },
-    emergencyContact: { type: String, required: true },
+    // emergencyContact: { type: String, required: true },
     date: { type: Date, required: true },
-    signatureOrStamp: { type: String }, // Path or URL for the signature/stamp if stored digitally
+    // signatureOrStamp: { type: String }, // Path or URL for the signature/stamp if stored digitally
   },
   { timestamps: true }
 );

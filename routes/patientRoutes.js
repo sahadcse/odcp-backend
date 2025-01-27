@@ -215,11 +215,11 @@ router.post(
  * @access Private
  * @header Authorization: Bearer <token>
  */
-router.get(
-  "/consultations/:id/prescription",
-  protectPatient,
-  downloadPrescription
-); // tested
+// router.get(
+//   "/consultations/:id/prescription",
+//   protectPatient,
+//   downloadPrescription
+// ); // tested
 
 // Get Room for joining the consultation
 router.get('/consultations/join/:id', protectPatient, getRoom); // tested

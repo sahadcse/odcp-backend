@@ -6,28 +6,20 @@ const bookAppointment = async (req, res) => {
   const { status } = req.body;
   req.body.patient_id = req.patient._id;
   try {
-    const {
-      doctor_id,
-      consultation_type,
-      appointment_date,
-      time_slot,
-      reason_for_visit,
-      booking_fee,
-    } = req.body;
-    if (
-      !doctor_id ||
-      !consultation_type ||
-      !appointment_date ||
-      !time_slot ||
-      !reason_for_visit ||
-      !booking_fee
-    ) {
-      return res
-        .status(400)
-        .json({ message: "All required fields must be provided" });
+    const { doctor_id, consultation_type, appointment_date, time_slot, reason_for_visit, booking_fee } = req.body;
+    if (!doctor_id || !consultation_type || !appointment_date || !time_slot || !reason_for_visit || !booking_fee) {
+      return res.status(400).json({ message: "All required fields must be provided" });
     }
     // remove status from req.body
     delete req.body.status;
+
+    // Check if filesData is provided and store it
+    if (req.files && req.files.filesData) {
+      req.body.files = req.files.filesData.map(file => ({
+        type: file.mimetype,
+        url: file.path,
+      }));
+    }
 
     const appointment = new Appointment(req.body);
     await appointment.save();

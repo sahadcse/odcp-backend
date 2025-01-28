@@ -4,6 +4,7 @@ const updatePatient = require("../services/patient/updatePatient");
 const deleteRequestPatientProfile = require("../services/patient/deleteRequestPatientProfile");
 const loginPatientService = require("../services/patient/loginPatient");
 const hashPassword = require("../utils/hashPassword");
+const Patient = require("../models/patientModel");
 
 // Create a new patient
 /**
@@ -80,6 +81,43 @@ const updatePatientProfile = async (req, res) => {
   }
 };
 
+const storeMedicalReports = async (req, res) => {
+  const patient = req.patient;
+  if (!patient) {
+    return res.status(404).json({ message: "Patient not found" });
+  }
+
+  if (!req.files.medical_reports) {
+    return res.status(400).json({ message: "No medical reports found" });
+  }
+
+  // Validate medical report types
+  const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
+  const invalidFiles = req.files.medical_reports.filter(file => !allowedTypes.includes(file.mimetype));
+  
+  if (invalidFiles.length > 0) {
+    return res.status(400).json({ message: "Invalid file type. Only PNG, JPEG, and PDF files are allowed." });
+  }
+
+  const newMedicalReports = req.files.medical_reports.map((file) => ({
+    type: file.mimetype,
+    url: file.path,
+  }));
+
+  try {
+    const currentPatient = await Patient.findById(patient._id);
+    const existingReports = currentPatient.medical_reports || [];
+    const updatedReports = [...existingReports, ...newMedicalReports];
+
+    currentPatient.medical_reports = updatedReports;
+    const updatedPatient = await currentPatient.save();
+
+    res.status(200).json(updatedPatient);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Delete patient profile
 /**
  * @desc Delete patient profile
@@ -135,4 +173,5 @@ module.exports = {
   updatePatientProfile,
   deletePatientHandler,
   loginPatient,
+  storeMedicalReports
 };

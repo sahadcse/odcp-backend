@@ -15,7 +15,10 @@ const updatePatient = async (id, patientData) => {
     }
   });
 
-  if (patientData.profile_picture !== undefined && patient.profile_picture !== patientData.profile_picture) {
+  if (
+    patientData.profile_picture !== undefined &&
+    patient.profile_picture !== patientData.profile_picture
+  ) {
     patient.profile_picture = patientData.profile_picture;
     updatedFields.profile_picture = patientData.profile_picture;
   }

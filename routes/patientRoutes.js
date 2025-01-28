@@ -7,6 +7,7 @@ const {
   updatePatientProfile,
   deletePatientHandler,
   loginPatient,
+  storeMedicalReports,
 } = require("../controllers/patientController");
 const {
   bookAppointment,
@@ -23,7 +24,7 @@ const {
   uploadMedicalReports,
   downloadPrescription,
   getNotifications,
-  getRoom
+  getRoom,
 } = require("../controllers/consultationPatientController");
 
 const router = express.Router();
@@ -80,6 +81,21 @@ router.put(
   updatePatientProfile
 ); // tested
 
+// Store new medical reports
+/**
+ * @route POST /api/users/patient/medical-reports
+ * @desc Store new medical reports
+ * @access Private
+ * @header Authorization
+ * @body { medical_reports }
+ */
+router.post(
+  "/medical-reports",
+  protectPatient,
+  upload.fields([{ name: "medical_reports", maxCount: 5 }]),
+  storeMedicalReports
+); // tested
+
 // Delete patient profile
 /**
  * @route DELETE /api/users/patient/delete
@@ -102,7 +118,12 @@ router.delete("/delete", protectPatient, deletePatientHandler); // tested
  * @header Authorization: Bearer <token>
  * @body { appointment details }
  */
-router.post("/appointments", protectPatient, bookAppointment); // tested
+router.post(
+  "/appointments",
+  protectPatient,
+  upload.fields([{ name: "filesData", maxCount: 5 }]),
+  bookAppointment
+); // tested
 
 // Get all doctors for booking an appointment
 /**
@@ -222,7 +243,7 @@ router.post(
 // ); // tested
 
 // Get Room for joining the consultation
-router.get('/consultations/join/:id', protectPatient, getRoom); // tested
+router.get("/consultations/join/:id", protectPatient, getRoom); // tested
 
 // Consultations---------------------------------------------------------------
 

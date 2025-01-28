@@ -69,7 +69,7 @@ const consultationRecordSchema = new mongoose.Schema({
   prescription_id:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Prescription",
-    required: true,
+    // required: true,
   },
   diagnosis: { type: String }, // Diagnosis made by the doctor
   notes: {

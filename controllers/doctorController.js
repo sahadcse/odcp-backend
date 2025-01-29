@@ -41,7 +41,7 @@ const registerDoctor = async (req, res) => {
 
   try {
     const doctor = await registerDoctorService(req.body);
-    res.status(201).json(doctor);
+    res.status(201).json(token, doctor);
   } catch (error) {
     console.error("Registration error:", error.message);
     res.status(400).json({ msg: error.message });

@@ -36,13 +36,7 @@ const registerDoctorService = async (inputData) => {
     await doctor.save();
 
     // Return sanitized doctor data
-    return {
-      _id: doctor._id,
-      full_name: doctor.full_name,
-      email: doctor.email,
-      role: doctor.role,
-      token: generateToken(doctor._id),
-    };
+    return {token, doctor};
   } catch (error) {
     console.error("Error during doctor save:", error.message);
     throw new Error("Failed to save doctor data.");

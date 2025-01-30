@@ -2,6 +2,7 @@ const ConsultationRecord = require("../models/consultationRecordModel");
 const Doctor = require("../models/doctorModel");
 const Patient = require("../models/patientModel");
 const Prescription = require("../models/prescription");
+const Appointment = require("../models/appointmentModel");
 
 // View consultation history
 const viewConsultationHistory = async (req, res) => {
@@ -202,6 +203,36 @@ const getPatientDetailsForLive = async (req, res) => {
   }
 }
 
+const getPatientFiles = async (req, res) => {
+  const { patient_id } = req.params;
+  if (!patient_id) {
+    return res.status(400).json({ message: "Patient ID is required" });
+  }
+  try {
+    const patient = await Patient.findById(patient_id);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
+    const consultations = await ConsultationRecord.find({ patient_id });
+    const appointments = await Appointment.find({ patient_id });
+
+    const response = {
+      patientFiles: patient.medical_reports?.map(report => ({ type: report.type, url: report.url })) || [],
+      consultationFiles: consultations.flatMap(consultation => 
+      consultation.medical_reports?.map(report => ({ type: report.type, url: report.url })) || []
+      ),
+      appointmentFiles: appointments.flatMap(appointment => 
+      appointment.files?.map(file => ({ type: file.type, url: file.url })) || []
+      )
+    };
+
+    res.status(200).json(response);
+    } catch (error) {
+    res.status(500).json({ message: "Error fetching patient files", error });
+    }
+}
+
 module.exports = {
   viewConsultationHistory,
   getConsultationDetails,
@@ -211,5 +242,6 @@ module.exports = {
   cancelConsultation,
   totalPatients,
   getRoomName,
-  getPatientDetailsForLive
+  getPatientDetailsForLive,
+  getPatientFiles
 };

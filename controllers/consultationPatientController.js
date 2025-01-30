@@ -22,7 +22,7 @@ const viewConsultationHistory = async (req, res) => {
     const consultations = await ConsultationRecord.find({ patient_id: _id });
 
     if (!consultations.length) {
-      return handleNotFound(res, "No consultations found");
+      return res.status(200).json({ message: "No consultations found" });
     }
     res.status(200).json(consultations);
   } catch (error) {

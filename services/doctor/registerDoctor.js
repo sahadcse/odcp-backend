@@ -13,7 +13,9 @@ const registerDoctorService = async (inputData) => {
   const validateInputFields = (inputData) => {
     const schemaPaths = Object.keys(Doctor.schema.paths);
     const missingFields = schemaPaths.filter(
-      (field) => !Object.keys(inputData).includes(field) && Doctor.schema.paths[field].isRequired
+      (field) =>
+        !Object.keys(inputData).includes(field) &&
+        Doctor.schema.paths[field].isRequired
     );
 
     console.log("Missing fields:", missingFields);
@@ -36,7 +38,7 @@ const registerDoctorService = async (inputData) => {
     await doctor.save();
 
     // Return sanitized doctor data
-    return {token, doctor};
+    return { token: generateToken(doctor._id), doctor };
   } catch (error) {
     console.error("Error during doctor save:", error.message);
     throw new Error("Failed to save doctor data.");

@@ -40,8 +40,8 @@ const registerDoctor = async (req, res) => {
   req.body.password = hashedPassword;
 
   try {
-    const doctor = await registerDoctorService(req.body);
-    res.status(201).json(token, doctor);
+    const { token, doctor } = await registerDoctorService(req.body);
+    res.status(201).json({ token, doctor });
   } catch (error) {
     console.error("Registration error:", error.message);
     res.status(400).json({ msg: error.message });

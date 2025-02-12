@@ -1,6 +1,6 @@
 const Doctor = require("../../models/doctorModel");
-const { generateDoctorId } = require("../../utils/idGenerator");
 const { generateToken } = require("../../utils/tokenGenerator");
+const {generateDoctorId}  = require("../../utils/idGenerator");
 
 const registerDoctorService = async (inputData) => {
   const { email } = inputData;
@@ -24,7 +24,7 @@ const registerDoctorService = async (inputData) => {
 
   try {
     // Generate doctor_id
-    const doctor_id = generateDoctorId();
+    const doctor_id = await generateDoctorId();
 
     // Validate input fields
     const missingFields = validateInputFields({ ...inputData, doctor_id });
@@ -37,8 +37,12 @@ const registerDoctorService = async (inputData) => {
 
     await doctor.save();
 
-    // Return sanitized doctor data
-    return { token: generateToken(doctor._id), doctor };
+    // Generate token
+    const token = generateToken(doctor._id);
+
+    console.log("token", token);
+    return { token, doctor }; 
+    
   } catch (error) {
     console.error("Error during doctor save:", error.message);
     throw new Error("Failed to save doctor data.");

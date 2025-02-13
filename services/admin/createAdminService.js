@@ -14,7 +14,7 @@ const createAdminService = async (inputData) => {
     
     try {
         inputData.password = await hashPassword(inputData.password);
-        const admin_id = generateAdminId();
+        const admin_id = await generateAdminId();
         inputData.admin_id = admin_id;
         const admin = new Admin(inputData);
         await admin.save();

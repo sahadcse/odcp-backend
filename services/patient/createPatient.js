@@ -14,7 +14,7 @@ const createPatient = async (patientData) => {
       throw new Error("Patient already exists");
     }
 
-    patientData.patient_id = generatePatientId();
+    patientData.patient_id = await generatePatientId();
 
     const newPatient = new Patient(patientData);
     await newPatient.save();
